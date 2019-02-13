@@ -240,8 +240,10 @@ foo     ;; = #<procedure foo (n)>
 ;; }}}
 
 ;; The Clojure {{{
-;; Monads https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
-;; delimc https://github.com/swannodette/delimc
+;; Q: Similarity of 1st class Continuations (FCC) & Continuation Passing Style (CPS)?
+;; https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
+
+;; https://github.com/swannodette/delimc
 ;; Q: Parallel computation: reset & shift + future & delay & promise?
 ;; }}}
 
