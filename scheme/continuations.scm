@@ -5,8 +5,6 @@
 ;; The Beer {{{
 ;; ... let's capture this moment for a while...
 
-;; ... java ... (lein repl)
-
 ;; Quick recap on LISP
 ;; L-I-S t   P-rocessing
 ;; constant function fc: AnyType (ignored & ignored) -> Number
@@ -17,6 +15,8 @@
 ;; }}}
 
 ;; The Motivation {{{
+;; Foo.java ... (lein repl)
+
 ;; [1] loop-fn is a compound-procedure of one argument `ls'
 ;; [2] If `ls' is '() then return the identity of `*', finish the current loop
 ;;     and proceed to the next elem of the `ls'
@@ -244,7 +244,7 @@ foo     ;; = #<procedure foo (n)>
 ;; delimc https://github.com/swannodette/delimc
 ;; }}}
 
-;; The Force {{{
+;; The FORCE {{{
 ;; Delimited Continuations for Everyone by Kenichi Asai
 ;; https://www.youtube.com/watch?v=QNM-njddhIw
 (use-modules (ice-9 control))

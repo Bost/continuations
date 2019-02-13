@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Foo {
     /*
-      (Foo/multiply '(1 2 3 4))
+      (Foo/multiply '(1 2 3 4 5))
       (Foo/multiply '())
       (Foo/multiply '(1 2 3 0 5))
     */
@@ -32,7 +32,7 @@ public class Foo {
     }
 
     /*
-    (Foo/divide '(1 2 3 4))
+    (Foo/divide '(1 2 3 4 5))
     (Foo/divide '())
     (Foo/divide '(1 2 3 0 5))
     */
