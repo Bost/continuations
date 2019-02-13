@@ -102,6 +102,8 @@
 ;; https://www.gnu.org/software/guile/manual/html_node/Continuations.html
 (call-with-current-continuation (lambda (k) 1))  ;; = 1
 (call/cc (lambda (k) 1))                         ;; = 1
+
+;; reset & shift: Kenichi Asai - the take function (card deck)
 ;; }}}
 
 ;; The Playground {{{
