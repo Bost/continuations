@@ -91,6 +91,11 @@
 (multiply '(7 3 8 0 1 9 5)) ;; = "The result is: 0"
 ;; }}}
 
+;; The Bigger Picture ? {{{
+;; go quarry, emacs undo <f12>, batch vs. interactive, compile errors,
+;; GUI validation, "smartness"
+;; }}}
+
 ;; The Wiki {{{
 ;; https://en.wikipedia.org/wiki/Continuation (see The Beer)
 ;; `call/cc' alias for `call-with-current-continuation'
