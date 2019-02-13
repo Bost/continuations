@@ -242,6 +242,7 @@ foo     ;; = #<procedure foo (n)>
 ;; The Clojure {{{
 ;; Monads https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
 ;; delimc https://github.com/swannodette/delimc
+;; Q: Parallel computation: reset & shift + future & delay & promise?
 ;; }}}
 
 ;; The FORCE {{{
