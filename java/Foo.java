@@ -2,9 +2,9 @@ import java.util.List;
 
 public class Foo {
     /*
-      (Foo/multiply '(1 2 3 4 5))
-      (Foo/multiply '())
-      (Foo/multiply '(1 2 3 0 5))
+      (Foo/multiply '(1 2 3 4 5)) // = 120
+      (Foo/multiply '())          // = 1
+      (Foo/multiply '(1 2 3 0 5)) // = 0
     */
     public static Number multiply_(List<Long> numbers) {
         Long result = new Long(1);
@@ -18,12 +18,12 @@ public class Foo {
         Long result = new Long(1);
         for (Long n : numbers) {
             if (n == 0) {
-                // System.out.print("Break out of the loop and... ");
-                // result = new Long(0);
-                // break;
+                System.out.print("Break out of the loop and... ");
+                result = new Long(0);
+                break;
 
-                System.out.println("Terminate computation immediatelly");
-                return new Long(0);
+                // System.out.println("Terminate computation immediatelly");
+                // return new Long(0);
             }
             result = result * n;
         }
@@ -32,7 +32,7 @@ public class Foo {
     }
 
     /*
-    (Foo/divide '(1 2 3 4 5))
+    (Foo/divide '(1 2 3 4 5)) // = 3333
     (Foo/divide '())
     (Foo/divide '(1 2 3 0 5))
     */
@@ -46,11 +46,11 @@ public class Foo {
                 // System.out.println("And what?!? My name's Chuck Norris!");
                 // n = new Long(1);
 
-                System.out.println("Gonna be Ok :) Just look away for a moment.");
-                continue;
+                // System.out.println("Gonna be Ok :) Just look away for a moment.");
+                // continue;
 
-                // System.out.println("Game over!");
-                // System.exit(-1);
+                System.out.println("Game over!");
+                System.exit(-1);
             }
             result = result / n;
         }

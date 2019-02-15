@@ -108,7 +108,7 @@
 
 ;; The Playground {{{
 
-;; call/cc creates "aborting" continuations that ignore the rest of the
+;; call/cc creates "aborting" continuation that ignores the rest of the
 ;; computation inside the body of the (lambda (k) ...) when k is invoked. See
 ;; delimited continuations
 (call/cc
@@ -254,7 +254,26 @@ foo     ;; = #<procedure foo (n)>
 ;; The FORCE {{{
 ;; Delimited Continuations for Everyone by Kenichi Asai
 ;; https://www.youtube.com/watch?v=QNM-njddhIw
+
 (use-modules (ice-9 control))
+(reset (+ 3 (shift k k)))
+((reset (+ 3 (shift k k))) 1)
+
+(define (id lst)
+  (cond
+   ((null? lst) lst)
+   (else (cons (car lst) (id (cdr lst))))))
+
+(define (take lst n)
+  (reset
+   (let rec ((lst lst)
+          (n n))
+         (cond
+          ((null? lst) lst)
+          ((= 0 n) (shift k (cons (car lst) (k (cdr lst)))))
+          (else (cons (car lst) (rec (cdr lst) (- n 1))))))))
+
+
 (+ 5 (reset (+ 2 3)))
 (+ 5 (reset (+ 2 (shift k 2)  3)))
 

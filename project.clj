@@ -6,7 +6,9 @@
   :dependencies
   [
    [org.clojure/clojure "1.10.0"]
-   [delimc "0.0.0-37-0x1c27"]
+   [delimc
+    #_"0.1.0"
+    "0.0.0-37-0x1c27"]
    ]
   :java-source-paths ["java"]
   :plugins
@@ -16,4 +18,4 @@
    ;; autorecompile changed java files
    [lein-virgil "0.1.9"]
    ]
-  :repl-options {:init-ns continuations.core})
+  :repl-options {:init-ns continuations.delimc})
