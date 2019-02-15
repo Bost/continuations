@@ -6,6 +6,19 @@
 ;; reset - delimits the continuation
 ;; shift - clear, bind and execute the continuation
 
+(def takec
+  (reset
+   (defn rec [lst n]
+     (cond
+       (empty? lst) lst
+       (= 0 n) (shift k (cons (first lst) (k (rest lst))))
+       :else (cons (first lst) (rec (rest lst) (- n 1)))))))
+
+(takec '(0 1 2 3 4) 0) ;; = (0 1 2 3 4)
+(takec '(0 1 2 3 4) 5) ;; = (0 1 2 3 4)
+(takec '(0 1 2 3 4) 3) ;; = (3 0 1 2 4)
+
+
 (def cont1 (atom nil))
 (def cont2 (atom nil))
 (def cont3 (atom nil))

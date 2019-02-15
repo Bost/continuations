@@ -264,6 +264,8 @@ foo     ;; = #<procedure foo (n)>
    ((null? lst) lst)
    (else (cons (car lst) (id (cdr lst))))))
 
+;; Kenichi Asai's example of take function
+;; https://youtu.be/QNM-njddhIw?t=1444
 (define (take lst n)
   (reset
    (let rec ((lst lst)
@@ -272,10 +274,9 @@ foo     ;; = #<procedure foo (n)>
           ((null? lst) lst)
           ((= 0 n) (shift k (cons (car lst) (k (cdr lst)))))
           (else (cons (car lst) (rec (cdr lst) (- n 1))))))))
-
-
-(+ 5 (reset (+ 2 3)))
-(+ 5 (reset (+ 2 (shift k 2)  3)))
+(take '(0 1 2 3 4) 0) ;; = (0 1 2 3 4)
+(take '(0 1 2 3 4) 5) ;; = (0 1 2 3 4)
+(take '(0 1 2 3 4) 3) ;; = (3 0 1 2 4)
 
 ;; William Byrd
 ;; https://www.youtube.com/watch?v=2GfFlfToBCo
