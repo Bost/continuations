@@ -1,10 +1,6 @@
 # continuations
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+See `scheme/continuations.scm`
 
 ## License
 

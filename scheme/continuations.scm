@@ -284,3 +284,8 @@ foo     ;; = #<procedure foo (n)>
 ;; Or in generall
 ;; https://www.youtube.com/results?search_query=continuations
 ;; }}}
+
+;; The Real World {{{
+;; Continuations used by type-safe(!) `printf' https://youtu.be/QNM-njddhIw?t=2288
+;; type-safe(!); e.g. (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
+;; }}}
