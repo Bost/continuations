@@ -1,4 +1,4 @@
-(defproject continuations :lein-v
+(defproject org.clojars.bost/continuations :lein-v
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
@@ -6,9 +6,8 @@
   :dependencies
   [
    [org.clojure/clojure "1.10.0"]
-   [delimc
-    #_"0.1.0"
-    "0.0.0-37-0x1c27"]
+   ;; Forked from https://github.com/swannodette/delimc
+   [org.clojars.bost/delimc "0.0.0-38-0x29c5"]
    ]
   :java-source-paths ["java"]
   :plugins
