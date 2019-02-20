@@ -2,7 +2,6 @@
   (:require
    [delimc.core :refer :all]))
 
-
 ;; reset - delimits the continuation
 ;; shift - clear, bind and execute the continuation
 
@@ -17,6 +16,18 @@
 (takec '(0 1 2 3 4) 0) ;; = (0 1 2 3 4)
 (takec '(0 1 2 3 4) 5) ;; = (0 1 2 3 4)
 (takec '(0 1 2 3 4) 3) ;; = (3 0 1 2 4)
+
+(defn rec
+  "Doesn't work"
+  [lst n]
+  (cond
+    (empty? lst) lst
+    (= 0 n) (shift k (cons (first lst) (k (rest lst))))
+    :else (cons (first lst) (rec (rest lst) (- n 1)))))
+
+#_(rec '(0 1 2 3 4) 3) ;; returns an error:
+;; => Please ensure shift is called from within the reset macro.
+
 
 
 (def cont1 (atom nil))
