@@ -311,3 +311,10 @@ foo     ;; = #<procedure foo (n)>
 ;; Q: Are threading macros (-> ->>) an instance of CPS?
 ;; Q: Parallel computation: reset & shift + future & delay & promise?
 ;; }}}
+
+;; TODOs {{{
+;; - recursive calls - creates "triangle" on the stack
+;; - stack space constrains can be avoided by "registering" (functions params turned to registers)
+;; - meaning of call with continuations is important for type theory
+;; - complicated controll structure - implement at first with continuations and then traditionally
+;; }}}
