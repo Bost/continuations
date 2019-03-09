@@ -62,6 +62,8 @@
 ;; }}}
 
 ;; The Better Way {{{
+;; Lisp Continuations: replace an exception with some value and keep going
+
 ;; [1] Create continuation function `break' wrapping around the current
 ;;     computation - the `(let loop-fn ...)'
 ;; [2] loop-fn is a compound-procedure of one arg `ls'
@@ -104,10 +106,14 @@
 (call/cc (lambda (k) 1))                         ;; = 1
 
 ;; reset & shift: Kenichi Asai - the take function (card deck)
+
+;; TODO difference between delimited / undelimited continuatios
+
+;; An argument against call/cc:
+;; http://okmij.org/ftp/continuations/against-callcc.html
 ;; }}}
 
 ;; The Playground {{{
-
 ;; call/cc creates "aborting" continuation that ignores the rest of the
 ;; computation inside the body of the (lambda (k) ...) when k is invoked. See
 ;; delimited continuations
@@ -241,20 +247,11 @@ foo     ;; = #<procedure foo (n)>
 (thread-exit)
 ;; }}}
 
-;; The Clojure {{{
-;; Lisp Continuations: replace this exception with some value and keep going
-
-;; Q: Similarity of 1st class Continuations (FCC) & Continuation Passing Style (CPS)?
-;; https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
-
-;; Threading macros: -> ->> as-> some-> some->> etc
-
-;; https://github.com/swannodette/delimc
-;; JVM doesn't have continuations so Clojure doesn't have them neither
-;; Q: Parallel computation: reset & shift + future & delay & promise?
-;; }}}
-
 ;; The FORCE {{{
+;; https://en.wikipedia.org/wiki/Continuation#Programming_language_support
+;; FCC: First class Continuations
+;; CPS: Continuation Passing Style
+
 ;; Delimited Continuations for Everyone by Kenichi Asai
 ;; https://www.youtube.com/watch?v=QNM-njddhIw
 
@@ -281,6 +278,16 @@ foo     ;; = #<procedure foo (n)>
 (take '(0 1 2 3 4) 5) ;; = (0 1 2 3 4)
 (take '(0 1 2 3 4) 3) ;; = (3 0 1 2 4)
 
+;; The Real World
+;; Continuations used by type-safe(!) `printf' https://youtu.be/QNM-njddhIw?t=2288
+;; type-safe(!); e.g. (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
+
+;; FCC against SQL injection(?):
+;; select * from USERS where USERNAME='$u' and PASSWORD='$p'
+;; $u = 1' or '1' = '1
+;; $p = 1' or '1' = '1
+;; select * from USERS where USERNAME='1' or '1' = '1' and PASSWORD='1' or '1' = '1'
+
 ;; William Byrd
 ;; https://www.youtube.com/watch?v=2GfFlfToBCo
 
@@ -288,13 +295,19 @@ foo     ;; = #<procedure foo (n)>
 ;; https://www.youtube.com/results?search_query=continuations
 ;; }}}
 
-;; The Real World {{{
-;; Continuations used by type-safe(!) `printf' https://youtu.be/QNM-njddhIw?t=2288
-;; type-safe(!); e.g. (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
+;; The Clojure {{{
+;; JVM doesn't have continuations so Clojure doesn't have them neither!
 
-;; SQL injection:
-;; select * from USERS where USERNAME='$u' and PASSWORD='$p'
-;; $u = 1' or '1' = '1
-;; $p = 1' or '1' = '1
-;; select * from USERS where USERNAME='1' or '1' = '1' and PASSWORD='1' or '1' = '1'
+;; David Nolen: Clojure port of cl-cont which adds continuations to Common Lisp:
+;; https://github.com/swannodette/delimc
+
+;; Similarity of FCC & CPS?
+;; CPS is just a style of coding and any lang. supporting anonymous functions
+;; allows it
+
+;; Continuation Monad (CPS):
+;; https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
+
+;; Q: Are threading macros (-> ->>) an instance of CPS?
+;; Q: Parallel computation: reset & shift + future & delay & promise?
 ;; }}}
