@@ -242,12 +242,15 @@ foo     ;; = #<procedure foo (n)>
 ;; }}}
 
 ;; The Clojure {{{
+;; Lisp Continuations: replace this exception with some value and keep going
+
 ;; Q: Similarity of 1st class Continuations (FCC) & Continuation Passing Style (CPS)?
 ;; https://github.com/Bost/monad_koans/blob/master/src/koans/5_continuation_monad.clj
 
-;; Threading macros: -> ->> as->
+;; Threading macros: -> ->> as-> some-> some->> etc
 
 ;; https://github.com/swannodette/delimc
+;; JVM doesn't have continuations so Clojure doesn't have them neither
 ;; Q: Parallel computation: reset & shift + future & delay & promise?
 ;; }}}
 
@@ -288,4 +291,10 @@ foo     ;; = #<procedure foo (n)>
 ;; The Real World {{{
 ;; Continuations used by type-safe(!) `printf' https://youtu.be/QNM-njddhIw?t=2288
 ;; type-safe(!); e.g. (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
+
+;; SQL injection:
+;; select * from USERS where USERNAME='$u' and PASSWORD='$p'
+;; $u = 1' or '1' = '1
+;; $p = 1' or '1' = '1
+;; select * from USERS where USERNAME='1' or '1' = '1' and PASSWORD='1' or '1' = '1'
 ;; }}}
