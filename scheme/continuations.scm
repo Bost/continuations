@@ -116,7 +116,8 @@
 ;; The Playground {{{
 ;; call/cc creates "aborting" continuation that ignores the rest of the
 ;; computation inside the body of the (lambda (k) ...) when k is invoked. See
-;; delimited continuations
+;; delimited continuations (a.k.a. prompts)
+;; Prompt: Every program is a operating system for another program
 (call/cc
  (lambda (k)
    ;; the current computation `(/ 30 5 3)' is aborted, i.e. effectivelly ignored
