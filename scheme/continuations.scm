@@ -150,9 +150,11 @@
 ;; = 6
 
 
-;; `begin' is necessary every time you need several forms when the syntax allows only one form.
-;; (begin f1 f2 ... fn) evaluates f1 ... fn in turn and then returns the value of fn.
-;; `begin' is normally used when there is some side-effect e.g (begin (set! y (+ y 1)) y)
+;; `begin' is necessary every time you need several forms when the syntax allows
+;; only one form (begin f1 f2 ... fn) evaluates f1 ... fn in turn and then
+;; returns the value of fn.
+;; `begin' is normally used when there is some side-effect e.g
+;;   (begin (set! y (+ y 1)) y)
 
 
 (+
@@ -195,7 +197,7 @@
           (+ n 1))))))
 foo     ;; = #<procedure foo (n)>
 *k*     ;; = ()
-(foo 5) ;; = 12   ;; i.e. (* 2 (+ 5 1)) and *k* is set to be (lambda (v) (* 2 v))
+(foo 5) ;; = 12   ; i.e. (* 2 (+ 5 1)) and *k* is set to be (lambda (v) (* 2 v))
 *k*     ;; #<continuation 55ccca0827e0>
 (*k* 5) ;; = 10
 
@@ -279,14 +281,17 @@ foo     ;; = #<procedure foo (n)>
 (take '(0 1 2 3 4) 3) ;; = (3 0 1 2 4)
 
 ;; The Real World
-;; Continuations used by type-safe(!) `printf' https://youtu.be/QNM-njddhIw?t=2288
-;; type-safe(!); e.g. (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
+
+;; Continuations used by type-safe(!) `printf'
+;; https://youtu.be/QNM-njddhIw?t=2288 type-safe(!); e.g.
+;;   (printf "1 + 2 is %s%n" 3) - parsing the fmt argument
 
 ;; FCC against SQL injection(?):
 ;; select * from USERS where USERNAME='$u' and PASSWORD='$p'
 ;; $u = 1' or '1' = '1
 ;; $p = 1' or '1' = '1
-;; select * from USERS where USERNAME='1' or '1' = '1' and PASSWORD='1' or '1' = '1'
+;; select * from USERS where USERNAME='1'
+;;                       or '1' = '1' and PASSWORD='1' or '1' = '1'
 
 ;; William Byrd
 ;; https://www.youtube.com/watch?v=2GfFlfToBCo
@@ -314,7 +319,9 @@ foo     ;; = #<procedure foo (n)>
 
 ;; TODOs {{{
 ;; - recursive calls - creates "triangle" on the stack
-;; - stack space constrains can be avoided by "registering" (functions params turned to registers)
+;; - stack space constrains can be avoided by "registering" (functions params
+;;   turned to registers)
 ;; - meaning of call with continuations is important for type theory
-;; - complicated controll structure - implement at first with continuations and then traditionally
+;; - complicated controll structure - implement at first with continuations and
+;;   then traditionally
 ;; }}}
