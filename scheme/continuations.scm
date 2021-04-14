@@ -254,6 +254,10 @@ foo     ;; = #<procedure foo (n)>
 ;; https://en.wikipedia.org/wiki/Continuation#Programming_language_support
 ;; FCC: First class Continuations
 ;; CPS: Continuation Passing Style
+;; SSA: Static Single Assignment (Compiler Design)
+;; https://en.wikipedia.org/wiki/Static_single_assignment_form
+;; programs in SSA form a subset of programs in CPS
+;; https://www.cs.purdue.edu/homes/suresh/502-Fall2008/papers/kelsey-ssa-cps.pdf
 
 ;; Delimited Continuations for Everyone by Kenichi Asai
 ;; https://www.youtube.com/watch?v=QNM-njddhIw
