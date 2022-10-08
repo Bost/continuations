@@ -32,10 +32,11 @@
   (multiply '())              ;; = 1
   #+END_SRC
   - [1] loop-fn is a compound-procedure of one argument `ls'
-  - [2] If `ls' is '() then return the identity of `*', finish the current loop
-    and proceed to the next elem of the `ls'
+  - [2] If `ls' is '() then return the identity of multiplication `*', finish
+    the current loop and proceed to the next elem of the `ls'
   - [3] If the first elem of `ls' is `0' then return the absorbing elem of `*',
     finish the current loop and proceed to the next elem of the `ls'.
+    However there's no point in further looping. The result will be 0 anyway!
     Inefficient :-(
   - [4] Multiply & loop around
 
@@ -46,7 +47,7 @@
     (cond
      ((string? arg) arg)
      ((number? arg) (number->string arg))
-     (else "to-str not implemented for this type")))
+     (else "to-str not implemented for this type"))
   ;;
   (define (multiply init-ls)
     "Inefficient & buggy"
@@ -56,7 +57,7 @@
       (let loop-fn ((ls init-ls))
         (cond
          ((null? ls) 1)
-         ((= (car ls) 0) " a bloody 0. Haha!")
+         ((= (car ls) 0) "A bloody 0. Haha!")
          (else (* (car ls) (loop-fn (cdr ls)))))))))
   ;;
   (multiply '(1 2 3 4 5))     ;; = "The result is: 120"
@@ -78,7 +79,7 @@
          (let loop-fn ((ls init-ls))                      ;; [2]
            (cond
             ((null? ls) 1)                                ;; [3]
-            ((= (car ls) 0) (break " a bloody 0. Haha!")) ;; [4]
+            ((= (car ls) 0) (break "A bloody 0. Haha!"))  ;; [4]
             (else (* (car ls) (loop-fn (cdr ls))))))))))) ;; [5]
 
   (multiply '(1 2 3 4 5))     ;; = "The result is: 120"
@@ -87,7 +88,7 @@
   #+END_SRC
   - [1] Create continuation function `break' wrapping around the current
     computation - the `(let loop-fn ...)'
-  - [2] loop-fn is a compound-procedure of one arg `ls'
+  - [2] loop-fn is a compound-procedure of one argument `ls'
   - [3] If `ls' is '() then return the identity of `*', finish the current loop
     and proceed to the next elem of the `ls'
   - [4] Continue with the rest of the computation: `(string-append "The result
@@ -95,7 +96,6 @@
     effectivelly breaking out of the loop.
   - [5] Multiply & loop around
 
-  
 * The Bigger Picture ?
   go quarry, emacs undo <f12>, batch vs. interactive, compile errors,
   GUI validation, "smartness"
@@ -111,8 +111,25 @@
 
   reset & shift: Kenichi Asai - the take function (card deck)
 
-  TODO difference between delimited / undelimited continuations
+* Delimited vs. Undelimited continuations
+  [[https://okmij.org/ftp/continuations/undelimited.html#delim-vs-undelim][Delimited vs. Undelimited continuations]]
+
+* Oleg Kiselyov: An argument against call/cc
   [[http://okmij.org/ftp/continuations/against-callcc.html][An argument against call/cc]]
+  - Undelimited continuations do not compose, undelimited continuations are not
+    functions.
+  - A captured undelimited continuation is in essence a backward label, to goto
+    regardless of any lexical scope
+  - Danger of memory leaks
+  - Performance penalty
+
+** dynamic-wind
+   - for writing finalizers, so to dispose of resources on normal or abnormal
+     exit from a function. If a function deals with files, database connections,
+     etc., its continuation will contain references to these resources. When the
+     continuation is captured, the resources remain referenced and cannot be
+     disposed of -- not until the continuation itself is garbage collected,
+     which may occur very late.
 
 * The Playground
   call/cc creates "aborting" continuation that ignores the rest of the
@@ -126,9 +143,10 @@
      ;; the current computation `(/ 30 5 3)' is aborted, i.e. effectivelly ignored
      (/ 30 5 (k 2) 3)))
   ;; = 2
+  #+END_SRC
 
+  #+BEGIN_SRC scheme
   (define *k* '())   ;; global definition
-
   (call/cc
    ;; k is the continuation function
    ;; it represents (lambda (v) v)
@@ -139,7 +157,10 @@
   ;; = 4
   (*k* (* 2 3)) ;; executed as ((lambda (v) v) (* 2 3))
   ;; = 6
+  #+END_SRC
 
+  #+BEGIN_SRC scheme
+  (define *k* '())   ;; global definition
   (call/cc
    ;; k is the continuation function
    ;; it represents (lambda (v) v)
@@ -151,14 +172,16 @@
 
   (*k* (* 2 3)) ;; executed as ((lambda (v) v) (* 2 3))
   ;; = 6
+  #+END_SRC
 
+  #+BEGIN_SRC scheme
+  (define *k* '())   ;; global definition
 
   ;; `begin' is necessary every time you need several forms when the syntax allows
   ;; only one form (begin f1 f2 ... fn) evaluates f1 ... fn in turn and then
   ;; returns the value of fn.
   ;; `begin' is normally used when there is some side-effect e.g
   ;;   (begin (set! y (+ y 1)) y)
-
 
   (+
    (call/cc
@@ -276,7 +299,7 @@
     (cond
      ((null? lst) lst)
      (else (cons (car lst) (id (cdr lst))))))
-  ;; 
+  ;;
   (define (take lst n)
     "Kenichi Asai's example of take function
      https://youtu.be/QNM-njddhIw?t=1444"
@@ -350,3 +373,54 @@
     C#, Ruby, Python, Cω, JavaScript, Sather, F#, CLU support yield operators.
     However they may perceive (delimited) continuations as complex,
     inaccessible, and inefficient.
+
+* Building Programs in Guile Scheme
+"Knit, Chisel, Hack: Building Programs in Guile Scheme" by Andy Wingo
+Macros: https://youtu.be/uwiaT3MoDVs?t=1204
+   - let you cut your program to fit your problem.
+   - produce bespoke thing that fits you. (na zakazku)
+
+** Prompt:
+   - "Knit, Chisel, Hack: Building Programs in Guile Scheme" by Andy Wingo
+     https://youtu.be/uwiaT3MoDVs?t=1236
+   - https://www.gnu.org/software/guile/manual/html_node/Prompts.html
+   - delimited continuation
+   - almost every program is an operating system to another program
+   - a barrier between the operating system and her programs
+
+/home/bost % ...
+- left side is the OS % right side is the program you're running
+- continuation is delimited by the prompt
+Three facilities of prompts:
+   1. Early exit
+   2. Coroutines
+   3. Nondeterminism
+
+  #+BEGIN_SRC scheme
+  (use-modules (ice-9 control))
+  (define expr (+ 1 2))
+  ;; % is the `call-with-prompt' operator
+  (% expr #| body |#
+    (lambda (k . args) #f) #| escape handler |#)
+  ;; % expanded - see https://youtu.be/uwiaT3MoDVs?t=1420
+  #+END_SRC
+
+Scheme prompts allow the Scheme programmer to treat parts of programs as if they
+were running in different operating systems.
+
+`receive` is like (keyword) destructuring in Clojure:
+  #+BEGIN_SRC scheme
+(receive (odds evens)
+    (partition odd? '(7 4 2 8 3))
+  (display odds)
+  (display " and ")
+  (display evens))
+  #+END_SRC
+
+Fluids - building block for implementing dynamically scoped (bound) variables.
+Dynamically scoped variable - set a variable to a value during some dynamic
+extent in the program execution and revert the variable to its original value
+when the control flow is outside of this dynamic extent.
+
+Guile uses fluids to implement parameters (see Parameters).
+Parameters are like dynamically bound variables in other Lisp dialects.
